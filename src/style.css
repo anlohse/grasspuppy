@@ -1,0 +1,98 @@
+body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+#top-bar {
+	height: 40px;
+	background-color: #333;
+	color: white;
+	display: flex;
+	align-items: center;
+	padding: 0 10px;
+}
+
+#top-bar button {
+	background-color: #444;
+	color: white;
+	border: 1px solid #555;
+	padding: 2px 10px;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
+#top-bar button:hover {
+	background-color: #555;
+}
+
+.separator {
+	width: 1px;
+	height: 20px;
+	background-color: #555;
+	margin: 0 10px;
+}
+
+#content_outer {
+	display: flex;
+	height: calc(100vh - 40px);
+}
+
+#lesson-panel {
+    width: 300px;
+    height: 100%;
+    border-right: 1px solid #ddd;
+    background-color: #f8f9fa;
+    flex-shrink: 0;
+}
+
+#content {
+	flex: 1;
+	height: 100%;
+}
+
+#result {
+	flex: 1;
+	height: 100%;
+	background-color: #eee;
+	padding: 10px;
+	overflow: auto;
+	font-family: monospace;
+}
+
+.box {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	margin-right: 2px;
+	border: 1px solid rgba(0,0,0,0.1);
+}
+
+.newline {
+	height: 10px;
+}
+
+.newLine input {
+    width: 100%;
+}
+
+/* Polishing: Highlights and Pulse */
+.highlight {
+    box-shadow: 0 0 10px 5px yellow !important;
+    transition: box-shadow 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.pulse {
+    animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+#error-panel .alert {
+    border-left: 4px solid #ffc107;
+}

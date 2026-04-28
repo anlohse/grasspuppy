@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "lib": ["DOM", "ESNext"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "types": ["node", "jquery", "bootstrap"]
+  },
+  "include": ["src/**/*", "main.ts"]
+}

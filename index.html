@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Grasspuppy</title>
+	<link rel="stylesheet" href="./src/style.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+	<div id="top-bar">
+		<button id="run" type="button" data-i18n="ui.run">Run</button>
+		<span class="separator"> </span>
+		<button id="abrir" type="button" data-i18n="ui.open">Open</button>
+		<button id="save" type="button" data-i18n="ui.save">Save</button>
+		<button id="clean" type="button" data-i18n="ui.clean">Clear</button>
+		<span class="separator"> </span>
+		<button id="toggle-lesson" type="button" data-i18n="ui.lessons">Lessons</button>
+        <div class="ml-auto d-flex align-items-center">
+            <select id="lang-select" class="form-control form-control-sm" style="width: auto; background: #444; color: white; border: 1px solid #555;">
+                <option value="en-US">English</option>
+                <option value="pt-BR">Português</option>
+            </select>
+        </div>
+	</div>
+	<div id="content_outer">
+        <div id="lesson-panel" style="display: none;">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <button id="back-to-list" class="btn btn-link btn-sm p-0" title="Voltar à lista">←</button>
+                    <h5 class="mb-0 text-center flex-grow-1" id="lesson-title">Lição</h5>
+                    <button type="button" class="close" id="close-lesson">&times;</button>
+                </div>
+
+                <div class="card-body overflow-auto">
+                    <h6 id="step-title"></h6>
+                    <div id="step-body"></div>
+                    <hr>
+                    <div id="validation-feedback"></div>
+                    <div id="error-panel" style="display: none;">
+                        <div class="alert alert-warning">
+                            <strong id="error-summary" data-i18n="ui.errorTitle">Oops! Something went wrong.</strong>
+                            <div id="error-message" class="small mt-1"></div>
+                            <button id="btn-view-technical" class="btn btn-link btn-sm p-0 mt-1" type="button" data-toggle="collapse" data-target="#error-details" data-i18n="ui.viewTechnical">View technical details</button>
+                            <div id="error-details" class="collapse mt-1 small font-italic text-muted"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <button id="prev-step" class="btn btn-sm btn-outline-secondary" data-i18n="ui.previous">Previous</button>
+                    <span id="step-progress"></span>
+                    <button id="next-step" class="btn btn-sm btn-primary" data-i18n="ui.next">Next</button>
+                </div>
+            </div>
+        </div>
+		<div id="content"></div>
+		<div id="result"></div>
+	</div>
+
+	<!-- Modals -->
+	<div class="modal fade" id="saved" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal-saved-title" data-i18n="ui.savedScripts">Saved Scripts</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="filenameInput" id="filenameInputLabel" data-i18n="ui.filename">Filename</label>
+						<input type="text" class="form-control" id="filenameInput">
+						<small id="filenameHelp" class="form-text text-muted" data-i18n="ui.filenamePlaceholder">Type the filename here</small>
+					</div>			
+					<div class="form-group">
+						<label for="filesList" id="filesListLabel" data-i18n="ui.savedFiles">Saved files:</label>
+						<div style="max-height: 120px; overflow: auto;">
+							<div id="filesList" class="list-group" role="tablist"></div>	
+						</div>
+					</div>			
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" data-i18n="ui.cancel">Cancel</button>
+					<button type="button" class="btn btn-primary" id="savedOk" data-i18n="ui.ok">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="module" src="./src/app.ts"></script>
+</body>
+</html>
