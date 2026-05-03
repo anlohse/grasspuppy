@@ -20,7 +20,9 @@
     "build": "npm run clean && parcel build --no-scope-hoist",
     "dev": "parcel index.html --dist-dir dist",
     "execute": "electron .",
-    "clean": "rimraf dist .parcel-cache"
+    "clean": "rimraf dist .parcel-cache",
+    "package:win": "npm run build && electron-builder --win nsis",
+    "package:linux": "npm run build && electron-builder --linux AppImage"
   },
   "author": "Alan N. Lohse",
   "license": "GPL-3.0-only",
@@ -29,9 +31,41 @@
     "@types/jquery": "^3.5.1",
     "@types/node": "^18.15.0",
     "electron": "^23.1.1",
+    "electron-builder": "^24.9.0",
     "parcel": "^2.13.3",
     "rimraf": "^5.0.0",
     "typescript": "^5.0.0"
+  },
+  "build": {
+    "appId": "com.alannlohse.grasspuppy",
+    "productName": "Grasspuppy",
+    "files": [
+      "dist/**/*",
+      "package.json",
+      "README.md",
+      "LICENSE"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "grasspuppy-${version}-windows.${ext}"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "artifactName": "grasspuppy-${version}-linux.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "dependencies": {
     "monaco-editor": "^0.55.1"
