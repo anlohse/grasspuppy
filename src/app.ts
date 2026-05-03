@@ -1,3 +1,6 @@
+import $ from 'jquery';
+(window as any).$ = (window as any).jQuery = $;
+import 'bootstrap';
 import * as monaco from 'monaco-editor';
 import './library';
 import { clearExecutionLog, getExecutionLog } from './library';

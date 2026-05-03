@@ -9,11 +9,12 @@ function createWindow(): void {
 		height: 600,
 		webPreferences: { 
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: false,
         }
 	});
 
-	mainWindow.loadFile(path.join(__dirname, 'index.html'));
+	const filePath = path.join(__dirname, 'dist/index.html');
+	mainWindow.loadFile(filePath);
 	mainWindow.maximize();
 	
     mainWindow.on('closed', function () {
