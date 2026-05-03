@@ -29,7 +29,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --no-audit --no-fund
 
       - name: Determine release version
         id: version
@@ -85,9 +85,9 @@ jobs:
         shell: bash
         run: |
           if [ "${{ matrix.target }}" = "linux" ]; then
-            npx electron-builder --linux AppImage --config.extraMetadata.version=${{ needs.prepare.outputs.release_version }}
+            npx electron-builder --linux AppImage --config.extraMetadata.version=${{ needs.prepare.outputs.release_version }} --publish never
           else
-            npx electron-builder --win nsis --config.extraMetadata.version=${{ needs.prepare.outputs.release_version }}
+            npx electron-builder --win nsis --config.extraMetadata.version=${{ needs.prepare.outputs.release_version }} --publish never
           fi
 
       - name: Upload package artifact
@@ -99,6 +99,8 @@ jobs:
   publish:
     needs: package
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -114,10 +116,12 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ needs.prepare.outputs.release_version }}
-          release_name: "Grasspuppy ${{ needs.prepare.outputs.release_version }}"
+          name: "Grasspuppy ${{ needs.prepare.outputs.release_version }}"
           body: "Cross-platform Grasspuppy release for Windows and Linux."
-          files: release-assets/*
+          files: |
+            release-assets/release-linux/*
+            release-assets/release-win/*
           draft: false
           prerelease: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
