@@ -13,7 +13,7 @@ function createWindow(): void {
         }
 	});
 
-	mainWindow.loadURL(`file://${__dirname}/index.html`);
+	mainWindow.loadFile(path.join(__dirname, 'index.html'));
 	mainWindow.maximize();
 	
     mainWindow.on('closed', function () {
