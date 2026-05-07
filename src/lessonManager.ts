@@ -1,3 +1,11 @@
+export interface Unit {
+    id: string;
+    order: number;
+    nameKey: string;
+    descriptionKey: string;
+    icon?: string;
+}
+
 export interface SandboxConfig {
     initialCode?: string;
     allowedApis?: string[];
@@ -6,35 +14,61 @@ export interface SandboxConfig {
 
 export interface LessonStep {
     id: string;
-    type: 'content' | 'task' | 'quiz' | 'checkpoint' | 'demo';
-    title: string;
-    body: string;
+    type: 'content' | 'task' | 'quiz' | 'checkpoint' | 'demo' | 'challenge' | 'debugging' | 'predict' | 'compare' | 'reflection';
+    titleKey?: string;
+    bodyKey?: string;
+    title?: string; // Fallback for raw strings if needed
+    body?: string;  // Fallback for raw strings if needed
     order: number;
     starterCode?: string;
     validation?: {
         mode: 'all' | 'any';
         rules: any[];
     };
-    hints?: { level: number; text: string }[];
-    successMessage?: string;
-    failureMessage?: string;
+    hints?: { level: number; hintKey: string }[];
+    successMessageKey?: string;
+    failureMessageKey?: string;
+    focus?: { target: string, style: string }[];
 }
 
 export interface Lesson {
     id: string;
-    title: string;
-    summary: string;
+    unitId: string;
+    order: number;
+    difficulty: 'beginner' | 'easy' | 'medium';
+    estimatedMinutes: number;
+    titleKey: string;
+    summaryKey: string;
+    learningObjectivesKeys: string[];
+    tags: string[];
     sandbox: SandboxConfig;
     steps: LessonStep[];
 }
 
 export class LessonManager {
+    private units: Unit[] = [];
     private lessons: Lesson[] = [];
     private currentLessonIndex: number = -1;
     private currentStepIndex: number = 0;
 
-    setLessons(lessons: Lesson[]): void {
-        this.lessons = lessons;
+    setCurriculum(units: Unit[], lessons: Lesson[]): void {
+        this.units = units.sort((a, b) => a.order - b.order);
+        this.lessons = lessons.sort((a, b) => {
+            const unitA = this.units.find(u => u.id === a.unitId);
+            const unitB = this.units.find(u => u.id === b.unitId);
+            if (unitA && unitB && unitA.order !== unitB.order) {
+                return unitA.order - unitB.order;
+            }
+            return a.order - b.order;
+        });
+    }
+
+    getUnits(): Unit[] {
+        return this.units;
+    }
+
+    getLessonsByUnit(unitId: string): Lesson[] {
+        return this.lessons.filter(l => l.unitId === unitId);
     }
 
     loadLessonById(id: string): void {
@@ -59,7 +93,6 @@ export class LessonManager {
             this.currentStepIndex++;
             return 'next-step';
         } else {
-            // Last step of current lesson
             if (this.currentLessonIndex < this.lessons.length - 1) {
                 this.currentLessonIndex++;
                 this.currentStepIndex = 0;

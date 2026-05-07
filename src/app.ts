@@ -1,21 +1,18 @@
-import $ from 'jquery';
-(window as any).$ = (window as any).jQuery = $;
-import 'bootstrap';
 import * as monaco from 'monaco-editor';
 import './library';
 import { clearExecutionLog, getExecutionLog } from './library';
 import { LessonManager } from './lessonManager';
 import { Validator } from './validator';
 import { initI18n, t, setLocale, getLocale, Locale } from './i18n';
-import { getLessons } from './lessons';
+import { getCurriculum } from './lessons';
 
 initI18n();
 
 const lessonManager = new LessonManager();
 const validator = new Validator();
 
-// Initialize lesson manager with the curriculum
-lessonManager.setLessons(getLessons());
+const { units, lessons } = getCurriculum();
+lessonManager.setCurriculum(units, lessons);
 
 function updateStaticTranslations() {
     $('[data-i18n]').each(function() {
@@ -38,23 +35,18 @@ function createDependencyProposals(range: monaco.IRange): monaco.languages.Compl
     const insertTextRules = monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet;
 
     return [
-        // Tier 1
         { label: 'drawBox', kind, documentation: 'Draw a box.', insertText: 'drawBox(${1:color})', range },
         { label: 'drawBoxes', kind, documentation: 'Draw boxes', insertText: 'drawBoxes(${1:string})', range },
         { label: 'print', kind, documentation: 'Print a string', insertText: 'print(${1:message})', range },
         { label: 'newLine', kind, documentation: 'New line', insertText: 'newLine()', insertTextRules, range },
         { label: 'pickRandom', kind, documentation: 'Pick a random element of an array', insertText: 'pickRandom(${1:array})', range },
         { label: 'readLine', kind, documentation: 'Read line from user (async)', insertText: 'readLine()', range },
-        
-        // Tier 2
         { label: 'repeat', kind, documentation: 'Repeat an action', insertText: 'repeat(${1:5}, (i) => {\n\t${0}\n})', insertTextRules, range },
         { label: 'pause', kind, documentation: 'Pause execution (async)', insertText: 'await pause(${1:1000})', range },
         { label: 'clearOutput', kind, documentation: 'Clear the result pane', insertText: 'clearOutput()', range },
         { label: 'setBoxSize', kind, documentation: 'Set box size in pixels', insertText: 'setBoxSize(${1:20})', range },
         { label: 'setGap', kind, documentation: 'Set gap between boxes', insertText: 'setGap(${1:2})', range },
         { label: 'drawGrid', kind, documentation: 'Draw a grid from an array of strings', insertText: 'drawGrid([${1}])', range },
-
-        // Colors
         { label: 'color', kind: monaco.languages.CompletionItemKind.Variable, documentation: 'Array of colors', insertText: 'color', range },
         { label: 'white', kind: monaco.languages.CompletionItemKind.Color, documentation: 'Constant for white color', insertText: 'white', range },
         { label: 'black', kind: monaco.languages.CompletionItemKind.Color, documentation: 'Constant for black color', insertText: 'black', range },
@@ -78,9 +70,7 @@ monaco.languages.registerCompletionItemProvider('javascript', {
             startColumn: word.startColumn,
             endColumn: word.endColumn
         };
-        return {
-            suggestions: createDependencyProposals(range)
-        };
+        return { suggestions: createDependencyProposals(range) };
     }
 });
 
@@ -89,19 +79,15 @@ function readFilename(text: string, value: string): Promise<string> {
         let okPressed = false;
         $('#filenameInput').val(value);
         $('#filenameInputLabel').text(text);
-        
         const onOkClick = () => {
             okPressed = true;
             resolve($('#filenameInput').val() as string);
             $('#saved').modal('hide');
         };
-
         $('#savedOk').off('click').on('click', onOkClick);
-        
         $('#saved').off('hidden.bs.modal').on('hidden.bs.modal', () => {
             if (!okPressed) resolve('');
         });
-
         let html = '';
         for (let i = 0; i < localStorage.length; ++i) {
             let k = localStorage.key(i);
@@ -119,7 +105,6 @@ function readFilename(text: string, value: string): Promise<string> {
 }
 
 const initialText = window.localStorage.getItem('initialText') || '';
-
 const editor = monaco.editor.create(document.getElementById('content')!, {
     value: initialText,
     language: 'javascript',
@@ -137,7 +122,6 @@ function showError(error: any) {
     const errorPanel = $('#error-panel');
     const message = error.message || 'Erro desconhecido';
     const stack = error.stack || '';
-
     let friendlyMessage = t('ui.errorFriendly');
     if (message.includes('is not defined')) {
         const name = message.split(' ')[0];
@@ -145,7 +129,6 @@ function showError(error: any) {
     } else if (message.includes('Unexpected token')) {
         friendlyMessage = t('ui.errorUnexpectedToken');
     }
-
     $('#error-message').html(friendlyMessage);
     $('#error-details').text(`${message}\n\n${stack}`);
     errorPanel.show();
@@ -154,7 +137,6 @@ function showError(error: any) {
 function setFocus(targets: { target: string, style: string }[]) {
     $('.highlight').removeClass('highlight');
     $('.pulse').removeClass('pulse');
-
     targets.forEach(f => {
         let el: JQuery;
         switch (f.target) {
@@ -163,9 +145,7 @@ function setFocus(targets: { target: string, style: string }[]) {
             case 'runButton': el = $('#run'); break;
             default: el = $(f.target);
         }
-        if (el.length) {
-            el.addClass(f.style);
-        }
+        if (el.length) el.addClass(f.style);
     });
 }
 
@@ -173,56 +153,62 @@ function renderStep() {
     const step = lessonManager.getCurrentStep();
     const lesson = lessonManager.getLesson();
     if (!step || !lesson) {
-        showLessonList();
+        showUnitList();
         return;
     }
-
     $('#back-to-list').show();
-    $('#lesson-title').text(lesson.title);
-    $('#step-title').text(step.title);
-    $('#step-body').html(step.body);
+    $('#lesson-title').text(t(lesson.titleKey));
+    $('#step-title').text(step.titleKey ? t(step.titleKey) : (step.title || ''));
+    $('#step-body').html(step.bodyKey ? t(step.bodyKey) : (step.body || ''));
     $('#step-progress').text(`${lessonManager.getStepIndex() + 1} / ${lesson.steps.length}`);
     $('#validation-feedback').empty();
     $('#error-panel').hide();
-
-    if (step.starterCode !== undefined) {
-        editor.setValue(step.starterCode);
-    }
-
-    if ((step as any).focus) {
-        setFocus((step as any).focus);
-    } else {
-        setFocus([]);
-    }
+    if (step.starterCode !== undefined) editor.setValue(step.starterCode);
+    if (step.focus) setFocus(step.focus);
+    else setFocus([]);
 }
 
-function showLessonList() {
+function showUnitList() {
     lessonManager.reset();
-    const lessons = getLessons();
+    const units = lessonManager.getUnits();
     let html = '<div class="list-group">';
-    lessons.forEach(l => {
-        html += `<a href="#" class="list-group-item list-group-item-action lesson-item" data-id="${l.id}">
-            <div class="d-flex w-100 justify-content-between">
-                <h6 class="mb-1">${l.title}</h6>
-            </div>
-            <p class="mb-1 small text-muted">${l.summary}</p>
+    units.forEach(u => {
+        html += `<a href="#" class="list-group-item list-group-item-action unit-item" data-id="${u.id}">
+            <h6 class="mb-1">${t(u.nameKey)}</h6>
+            <p class="mb-1 small text-muted">${t(u.descriptionKey)}</p>
         </a>`;
     });
     html += '</div>';
-
-    const stepBody = $('#step-body');
-    stepBody.html(html);
+    $('#step-body').html(html);
     $('#step-title').text(t('ui.lessons'));
     $('#lesson-title').text('Grasspuppy');
     $('#validation-feedback').empty();
     $('#step-progress').empty();
     $('#prev-step, #next-step').hide();
     $('#back-to-list').hide();
+    $('.unit-item').off('click').on('click', function(e) {
+        e.preventDefault();
+        showLessonList($(this).data('id'));
+    });
+}
 
+function showLessonList(unitId: string) {
+    const lessons = lessonManager.getLessonsByUnit(unitId);
+    const unit = lessonManager.getUnits().find(u => u.id === unitId);
+    let html = '<div class="list-group">';
+    lessons.forEach(l => {
+        html += `<a href="#" class="list-group-item list-group-item-action lesson-item" data-id="${l.id}">
+            <h6 class="mb-1">${t(l.titleKey)}</h6>
+            <p class="mb-1 small text-muted">${t(l.summaryKey)}</p>
+        </a>`;
+    });
+    html += '</div>';
+    $('#step-body').html(html);
+    $('#step-title').text(unit ? t(unit.nameKey) : '');
+    $('#back-to-list').show();
     $('.lesson-item').off('click').on('click', function(e) {
         e.preventDefault();
-        const id = $(this).data('id');
-        lessonManager.loadLessonById(id);
+        lessonManager.loadLessonById($(this).data('id'));
         $('#prev-step, #next-step').show();
         renderStep();
     });
@@ -238,30 +224,23 @@ document.getElementById('run')?.addEventListener('click', async () => {
             .replace(/repeat\(([^,]*),\s*\(/g, 'await repeat($1, (')
         } 
     })()`;
-    
     const resultPane = document.getElementById('result');
     if (resultPane) resultPane.innerHTML = '';
     $('#error-panel').hide();
-    
     clearExecutionLog();
-    
     try {
         await eval(val);
-        
         const step = lessonManager.getCurrentStep();
         if (step && step.type === 'task' && step.validation) {
             const results = validator.validate(getExecutionLog(), editorVal, step.validation.rules);
             const feedbackDiv = $('#validation-feedback');
             feedbackDiv.empty();
-            
             results.forEach(res => {
                 const alertClass = res.passed ? 'alert-success' : 'alert-danger';
                 feedbackDiv.append(`<div class="alert ${alertClass} py-1 px-2 mb-1" style="font-size: 0.85rem;">${res.feedback}</div>`);
             });
         }
-    } catch (e: any) {
-        showError(e);
-    }
+    } catch (e: any) { showError(e); }
 });
 
 document.getElementById('abrir')?.addEventListener('click', async () => {
@@ -278,9 +257,7 @@ document.getElementById('save')?.addEventListener('click', async () => {
     if (value) window.localStorage.setItem('arquivo.' + value, val);
 });
 
-document.getElementById('clean')?.addEventListener('click', () => {
-    setValue('\n');
-});
+document.getElementById('clean')?.addEventListener('click', () => setValue('\n'));
 
 document.getElementById('toggle-lesson')?.addEventListener('click', () => {
     const panel = $('#lesson-panel');
@@ -289,12 +266,15 @@ document.getElementById('toggle-lesson')?.addEventListener('click', () => {
         setFocus([]);
     } else {
         panel.show();
-        showLessonList();
+        if (!lessonManager.getLesson()) showUnitList();
+        else renderStep();
     }
 });
 
 document.getElementById('back-to-list')?.addEventListener('click', () => {
-    showLessonList();
+    const lesson = lessonManager.getLesson();
+    if (lesson) showLessonList(lesson.unitId);
+    else showUnitList();
 });
 
 document.getElementById('close-lesson')?.addEventListener('click', () => {
@@ -304,41 +284,26 @@ document.getElementById('close-lesson')?.addEventListener('click', () => {
 
 document.getElementById('next-step')?.addEventListener('click', () => {
     const status = lessonManager.nextStep();
-    if (status === 'finished') {
-        showLessonList();
-    } else {
-        renderStep();
-    }
+    if (status === 'finished') showUnitList();
+    else renderStep();
 });
 
 document.getElementById('prev-step')?.addEventListener('click', () => {
-    if (lessonManager.previousStep()) {
-        renderStep();
-    }
+    if (lessonManager.previousStep()) renderStep();
 });
 
 document.getElementById('lang-select')?.addEventListener('change', (e) => {
     const newLocale = (e.target as HTMLSelectElement).value as Locale;
     setLocale(newLocale);
     updateStaticTranslations();
-    
-    // Refresh lessons data in manager
-    const lessons = getLessons();
-    lessonManager.setLessons(lessons);
-
-    const lesson = lessonManager.getLesson();
-    if (lesson) {
-        // Just reload the current step to update text
-        renderStep();
-    } else if ($('#lesson-panel').is(':visible')) {
-        showLessonList();
-    }
+    const { units, lessons } = getCurriculum();
+    lessonManager.setCurriculum(units, lessons);
+    if (lessonManager.getLesson()) renderStep();
+    else if ($('#lesson-panel').is(':visible')) showUnitList();
 });
 
 window.onbeforeunload = () => {
-    const val = editor.getValue();
-    window.localStorage.setItem('initialText', val);
+    window.localStorage.setItem('initialText', editor.getValue());
 };
 
-// Initial translation
 updateStaticTranslations();
