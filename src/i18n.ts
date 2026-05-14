@@ -75,7 +75,31 @@ const translations: Record<Locale, Record<string, string>> = {
         'lessons.u1l4.title': '4. Imprimindo Texto',
         'lessons.u1l4.summary': 'Sua primeira mensagem.',
         'lessons.u1l4.obj1': 'Usar a função print.',
-        'lessons.u1l4.s1.body': 'Use a função <code>print("Olá")</code> para mostrar uma mensagem.'
+        'lessons.u1l4.s1.body': 'Use a função <code>print("Olá")</code> para mostrar uma mensagem.',
+
+        'lessons.u1l5.title': '5. Ordem das Coisas',
+        'lessons.u1l5.summary': 'O computador lê de cima para baixo.',
+        'lessons.u1l5.s1.body': 'Quando você escreve várias linhas de código, o computador as executa na ordem em que aparecem. Tente imprimir duas mensagens diferentes!',
+
+        'lessons.u1l6.title': '6. Sua Primeira Caixa',
+        'lessons.u1l6.summary': 'Vamos desenhar algo!',
+        'lessons.u1l6.s1.body': 'A função <code>drawBox(red)</code> desenha um pequeno quadrado vermelho no painel de resultados. É assim que começamos a criar coisas visuais!',
+
+        'lessons.u1l7.title': '7. Mudando as Cores',
+        'lessons.u1l7.summary': 'Experimente cores diferentes.',
+        'lessons.u1l7.s1.body': 'Você pode usar cores diferentes como <code>blue</code>, <code>green</code> ou <code>yellow</code>. Tente desenhar uma caixa de cada cor!',
+
+        'lessons.u1l8.title': '8. Entendendo Erros',
+        'lessons.u1l8.summary': 'Erros são normais e ajudam a aprender.',
+        'lessons.u1l8.s1.body': 'Programadores cometem erros o tempo todo! Se você escrever <code>prunt</code> em vez de <code>print</code>, o Grasspuppy vai te mostrar uma mensagem explicando o que aconteceu.',
+
+        'lessons.u1l9.title': '9. O Detetive de Código',
+        'lessons.u1l9.summary': 'Conserte o código quebrado.',
+        'lessons.u1l9.s1.body': 'Às vezes o código tem um pequeno erro de digitação. Sua missão é encontrar e consertar para que o programa funcione novamente!',
+
+        'lessons.u1l10.title': '10. Desafio: Linha Colorida',
+        'lessons.u1l10.summary': 'Combine tudo o que aprendeu.',
+        'lessons.u1l10.s1.body': 'Crie uma sequência de caixas coloridas! Tente usar pelo menos 3 cores diferentes para formar uma linha bonita.',
     },
     'en-US': {
         'ui.run': 'Run',
@@ -151,7 +175,31 @@ const translations: Record<Locale, Record<string, string>> = {
         'lessons.u1l4.title': '4. Printing Text',
         'lessons.u1l4.summary': 'Your first message.',
         'lessons.u1l4.obj1': 'Use the print function.',
-        'lessons.u1l4.s1.body': 'Use the <code>print("Hello")</code> function to show a message.'
+        'lessons.u1l4.s1.body': 'Use the <code>print("Hello")</code> function to show a message.',
+
+        'lessons.u1l5.title': '5. Order of Things',
+        'lessons.u1l5.summary': 'The computer reads from top to bottom.',
+        'lessons.u1l5.s1.body': 'When you write multiple lines of code, the computer executes them in the order they appear. Try printing two different messages!',
+
+        'lessons.u1l6.title': '6. Your First Box',
+        'lessons.u1l6.summary': 'Let\'s draw something!',
+        'lessons.u1l6.s1.body': 'The function <code>drawBox(red)</code> draws a small red square in the result pane. This is how we start creating visual things!',
+
+        'lessons.u1l7.title': '7. Changing Colors',
+        'lessons.u1l7.summary': 'Experiment with different colors.',
+        'lessons.u1l7.s1.body': 'You can use different colors like <code>blue</code>, <code>green</code>, or <code>yellow</code>. Try drawing one box of each color!',
+
+        'lessons.u1l8.title': '8. Understanding Errors',
+        'lessons.u1l8.summary': 'Errors are normal and help you learn.',
+        'lessons.u1l8.s1.body': 'Programmers make mistakes all the time! If you type <code>prunt</code> instead of <code>print</code>, Grasspuppy will show you a message explaining what happened.',
+
+        'lessons.u1l9.title': '9. Code Detective',
+        'lessons.u1l9.summary': 'Fix the broken code.',
+        'lessons.u1l9.s1.body': 'Sometimes code has a small typo. Your mission is to find and fix it so the program works again!',
+
+        'lessons.u1l10.title': '10. Challenge: Colorful Row',
+        'lessons.u1l10.summary': 'Combine everything you learned.',
+        'lessons.u1l10.s1.body': 'Create a sequence of colorful boxes! Try using at least 3 different colors to form a nice row.',
     }
 };
 
