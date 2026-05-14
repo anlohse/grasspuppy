@@ -1,6 +1,6 @@
 {
   "name": "grasspuppy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Offline recreation of grasshopper",
   "main": "dist/main.js",
   "targets": {

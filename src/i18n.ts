@@ -100,6 +100,47 @@ const translations: Record<Locale, Record<string, string>> = {
         'lessons.u1l10.title': '10. Desafio: Linha Colorida',
         'lessons.u1l10.summary': 'Combine tudo o que aprendeu.',
         'lessons.u1l10.s1.body': 'Crie uma sequência de caixas coloridas! Tente usar pelo menos 3 cores diferentes para formar uma linha bonita.',
+
+        // Lessons Unit 2
+        'lessons.u2l11.title': '11. A Ordem do Desenho',
+        'lessons.u2l11.summary': 'Desenhar também segue uma sequência.',
+        'lessons.u2l11.s1.body': 'Assim como o texto, as caixas são desenhadas na ordem que você escreve. Desenhe uma caixa amarela e depois uma azul!',
+        
+        'lessons.u2l12.title': '12. Uma Fila de Caixas',
+        'lessons.u2l12.summary': 'Crie uma sequência horizontal.',
+        'lessons.u2l12.s1.body': 'Ao chamar <code>drawBox</code> várias vezes, elas ficam uma ao lado da outra. Desenhe 4 caixas vermelhas!',
+
+        'lessons.u2l13.title': '13. Pulando Linha',
+        'lessons.u2l13.summary': 'Aprenda a função newLine.',
+        'lessons.u2l13.s1.body': 'Para começar a desenhar em uma nova linha, usamos <code>newLine()</code>. Tente desenhar uma caixa verde, pular a linha e desenhar outra verde!',
+
+        'lessons.u2l14.title': '14. Linhas e Colunas',
+        'lessons.u2l14.summary': 'Crie uma grade simples.',
+        'lessons.u2l14.s1.body': 'Combinando caixas e quebras de linha, você cria formas! Faça duas linhas, cada uma com duas caixas azuis.',
+
+        'lessons.u2l15.title': '15. Pintando uma Bandeira',
+        'lessons.u2l15.summary': 'Composição visual.',
+        'lessons.u2l15.s1.body': 'Crie uma bandeira com 3 listras horizontais: 3 verdes em cima, 3 amarelas no meio e 3 azuis embaixo.',
+
+        'lessons.u2l16.title': '16. Simetria de Cores',
+        'lessons.u2l16.summary': 'Crie padrões espelhados.',
+        'lessons.u2l16.s1.body': 'Desenhe um padrão simétrico: Vermelho, Azul, Amarelo, Azul, Vermelho.',
+
+        'lessons.u2l17.title': '17. Padrões Repetidos',
+        'lessons.u2l17.summary': 'Crie sequências rítmicas.',
+        'lessons.u2l17.s1.body': 'Crie uma linha alternando cores: Verde, Branco, Verde, Branco, Verde, Branco.',
+
+        'lessons.u2l18.title': '18. Introdução ao Pixel Art',
+        'lessons.u2l18.summary': 'Caixas são como pixels.',
+        'lessons.u2l18.s1.body': 'Na computação, imagens são feitas de pequenos pontos chamados pixels. No Grasspuppy, nossas caixas são como pixels gigantes! Desenhe um pequeno "L" usando caixas.',
+
+        'lessons.u2l19.title': '19. Desafio: O Distintivo',
+        'lessons.u2l19.summary': 'Crie sua própria marca.',
+        'lessons.u2l19.s1.body': 'Use sua criatividade! Desenhe um distintivo colorido que use pelo menos 3 linhas e use cores diferentes nas bordas.',
+
+        'lessons.u2l20.title': '20. Mini Projeto: Poster Digital',
+        'lessons.u2l20.summary': 'Crie uma obra de arte.',
+        'lessons.u2l20.s1.body': 'Imagine que o painel é um poster. Use cores e quebras de linha para criar um desenho abstrato e dê um nome a ele usando a função <code>print</code> no final.',
     },
     'en-US': {
         'ui.run': 'Run',
@@ -200,6 +241,47 @@ const translations: Record<Locale, Record<string, string>> = {
         'lessons.u1l10.title': '10. Challenge: Colorful Row',
         'lessons.u1l10.summary': 'Combine everything you learned.',
         'lessons.u1l10.s1.body': 'Create a sequence of colorful boxes! Try using at least 3 different colors to form a nice row.',
+
+        // Lessons Unit 2
+        'lessons.u2l11.title': '11. Drawing Order',
+        'lessons.u2l11.summary': 'Drawing also follows a sequence.',
+        'lessons.u2l11.s1.body': 'Just like text, boxes are drawn in the order you write them. Draw a yellow box and then a blue one!',
+
+        'lessons.u2l12.title': '12. A Row of Boxes',
+        'lessons.u2l12.summary': 'Create a horizontal sequence.',
+        'lessons.u2l12.s1.body': 'When you call <code>drawBox</code> multiple times, they stay side by side. Draw 4 red boxes!',
+
+        'lessons.u2l13.title': '13. Skipping a Line',
+        'lessons.u2l13.summary': 'Learn the newLine function.',
+        'lessons.u2l13.s1.body': 'To start drawing on a new line, we use <code>newLine()</code>. Try drawing a green box, skipping the line, and drawing another green one!',
+
+        'lessons.u2l14.title': '14. Rows and Columns',
+        'lessons.u2l14.summary': 'Create a simple grid.',
+        'lessons.u2l14.s1.body': 'By combining boxes and line breaks, you create shapes! Make two rows, each with two blue boxes.',
+
+        'lessons.u2l15.title': '15. Painting a Flag',
+        'lessons.u2l15.summary': 'Visual composition.',
+        'lessons.u2l15.s1.body': 'Create a flag with 3 horizontal stripes: 3 green on top, 3 yellow in the middle, and 3 blue at the bottom.',
+
+        'lessons.u2l16.title': '16. Color Symmetry',
+        'lessons.u2l16.summary': 'Create mirrored patterns.',
+        'lessons.u2l16.s1.body': 'Draw a symmetrical pattern: Red, Blue, Yellow, Blue, Red.',
+
+        'lessons.u2l17.title': '17. Repeating Patterns',
+        'lessons.u2l17.summary': 'Create rhythmic sequences.',
+        'lessons.u2l17.s1.body': 'Create a row alternating colors: Green, White, Green, White, Green, White.',
+
+        'lessons.u2l18.title': '18. Introduction to Pixel Art',
+        'lessons.u2l18.summary': 'Boxes are like pixels.',
+        'lessons.u2l18.s1.body': 'In computing, images are made of small dots called pixels. In Grasspuppy, our boxes are like giant pixels! Draw a small "L" using boxes.',
+
+        'lessons.u2l19.title': '19. Challenge: The Badge',
+        'lessons.u2l19.summary': 'Create your own brand.',
+        'lessons.u2l19.s1.body': 'Use your creativity! Draw a colorful badge that uses at least 3 lines and use different colors on the edges.',
+
+        'lessons.u2l20.title': '20. Mini Project: Digital Poster',
+        'lessons.u2l20.summary': 'Create a work of art.',
+        'lessons.u2l20.s1.body': 'Imagine the panel is a poster. Use colors and line breaks to create an abstract drawing and give it a name using the <code>print</code> function at the end.',
     }
 };
 
